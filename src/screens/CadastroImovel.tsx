@@ -51,9 +51,6 @@ const CadastroImovel: React.FC = () => {
                     style={styles.logo}/>
             </View>
             <View style={styles.form}>
-            <View style={styles.alinhamentoImagemSelecionada}>
-                    {imagem ? <Image source={{ uri: imagem }} style={styles.imagemSelecionada} /> : null}
-                </View>
                 
                 <TextInput
                     style={styles.input}
