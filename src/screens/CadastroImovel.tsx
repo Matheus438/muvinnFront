@@ -140,7 +140,7 @@ const styles =StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#e3d5ca'
+        backgroundColor: '#edf2fa'
     },
     logo: {
         width: 300,
@@ -166,7 +166,7 @@ const styles =StyleSheet.create({
         
     },
     button: {
-        backgroundColor: '#d6ccc2',
+        backgroundColor: '#7b5bf2',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: '#d6ccc2',

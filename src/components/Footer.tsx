@@ -5,7 +5,7 @@ function Footer(): React.JSX.Element {
     return(
         <View style={styles.footer}>
             <TouchableOpacity>
-                <Image source={require('../assets/images/home.png')}
+                <Image source={require('../assets/images/homes.png')}
                 style={styles.footerIcon} />
             </TouchableOpacity>
             <TouchableOpacity>
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     },
     footer: {
         borderTopWidth: 0.2,
-        backgroundColor: '#ebc79e',
+        backgroundColor: '#09184d',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-end',
