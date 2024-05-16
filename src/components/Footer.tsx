@@ -30,11 +30,12 @@ const styles = StyleSheet.create({
     },
     footer: {
         borderTopWidth: 0.2,
-        backgroundColor: 'white',
+        backgroundColor: '#ebc79e',
         flexDirection: 'row',
         justifyContent: 'space-around',
         alignItems: 'flex-end',
-        paddingVertical: 10
+        paddingVertical: 10,
+        width:390,
     },
     footerIcon: {
         width: 30,

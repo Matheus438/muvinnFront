@@ -1,21 +1,23 @@
-import React, { useState } from "react";
-import { Button, Image, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { launchCamera, launchImageLibrary } from "react-native-image-picker";
 import axios from "axios";
-import { ImageBackground } from "react-native";
+import React, { useState } from "react";
+import { Image, StatusBar, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Footer from "../components/Footer";
 
-const CadastroImovel: React.FC = () => {
-    const [estado, setEstado] = useState<string>('');
-    const [cidade, setCidade] = useState<string>('');
-    const [endereco, setEndereco] = useState<string>('');
-    const [tipos_imoveis, setTipos_imoveis] = useState<string>('');
-    const [preco, setPreco] = useState<string>('');
-    const [banheiros, setBanheiros] = useState<string>('');
-    const [quartos, setQuartos] = useState<string>('');
-    const [vagas, setVagas] = useState<string>('');
-    const [area_do_imovel, setArea_do_imovel] = useState<string>('');
+function CadastroScreen(): React.JSX.Element{
 
-    const CadastroImovel = async () => {
+    const [estado, setEstado] = useState("");
+    const [cidade, setCidade] = useState("");
+    const [endereco, setEndereco] = useState("");
+    const [tipos_imoveis, setTipos_imoveis] = useState("");
+    const [preco, setPreco] = useState("");
+    const [banheiros, setBanheiros] = useState("");
+    const [quartos, setQuartos] = useState("");
+    const [vagas, setVagas] = useState("");
+    const [area_do_imovel, setArea_do_imovel] = useState("");
+
+
+    const CadastroScreen = async () => {
         try {
             const formData = new FormData();
             formData.append('estado', estado);
@@ -27,9 +29,10 @@ const CadastroImovel: React.FC = () => {
             formData.append('quartos', quartos);
             formData.append('vagas', vagas);
             formData.append('area_do_imovel', area_do_imovel);
+            
 
             console.log(formData)
-            const response =  await axios.post('http://10.137.11.211:8000/api/imovel/criar', formData, {
+            const response = await axios.post('http://10.137.11.224:8000/api/clientes', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -40,160 +43,154 @@ const CadastroImovel: React.FC = () => {
         }
     }
 
-    return (
+    return(
         <View style={styles.container}>
-            <ScrollView>
-            <ImageBackground source={require('../assets/images/fundo.jpg')} resizeMode="cover" style={styles.image}>
-            <StatusBar backgroundColor="black" barStyle="light-content" />
-            <View style={styles.header}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <StatusBar hidden barStyle={"light-content"} backgroundColor={"black"} />
             <Image
-                    source={require('../assets/images/logo.jpeg')}
-                    style={styles.logo}/>
-            </View>
-            <View style={styles.form}>
-                
-                <TextInput
-                    style={styles.input}
-                    placeholder="Nome"
-                    value={nome}
-                    onChangeText={setNome}
-                />
+                    source={require('../assets/images/logo.png')}
+                    style={styles.logo} />
 
+            <View>
+                
                 <TextInput
-                    style={styles.input}
-                    placeholder="Endereço"
-                    value={endereco}
-                    onChangeText={setEndereco}
-                />
-
-                <TextInput
-                    style={styles.input}
-                    placeholder="Telefone"
-                    value={telefone}
-                    onChangeText={setTelefone}
+                style={styles.input} 
+                placeholder="Estado" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteEstado) => setEstado(texteEstado)}
                 />
                 
                 <TextInput
-                    style={styles.input}
-                    placeholder="E-mail"
-                    value={email}
-                    onChangeText={setEmail}
+                style={styles.input} 
+                placeholder="cidade" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteCidade) => setCidade(texteCidade)}
+                secureTextEntry
                 />
-                
                 <TextInput
-                    style={styles.input}
-                    placeholder="CPF"
-                    value={cpf}
-                    onChangeText={setCpf}
+                style={styles.input} 
+                placeholder="Endereço" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteEndereco) => setEndereco(texteEndereco)}
+                secureTextEntry
                 />
-                
                 <TextInput
-                    style={styles.input}
-                    placeholder="Senha"
-                    value={password}
-                    onChangeText={setPassword}
-                    secureTextEntry
+                style={styles.input} 
+                placeholder="Tipo do Imóvel" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteTipos_imoveis) => setTipos_imoveis(texteTipos_imoveis)}
+                secureTextEntry
                 />
-                
-                <TouchableOpacity style={styles.imageButton} onPress={SelecionarImagem}>
-                    <Text style={styles.imageButtonText}>Selecionar Imagem</Text>
+                <TextInput
+                style={styles.input} 
+                placeholder="Preço" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(textePreco) => setPreco(textePreco)}
+                secureTextEntry
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Banheiros" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteBanheiros) => setBanheiros(texteBanheiros)}
+                secureTextEntry
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Quartos" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteQuartos) => setQuartos(texteQuartos)}
+                secureTextEntry
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Vagas" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteVagas) => setVagas(texteVagas)}
+                secureTextEntry
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Area do Imóvel" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteArea_do_Imovel) => setArea_do_imovel(texteArea_do_Imovel)}
+                secureTextEntry
+                />
+                </View>
+                <View>
+                    
+                <TouchableOpacity style={styles.button} 
+                onPress={()=>{CadastroScreen()}}>
+                    <Text style={styles.buttonText}>Cadastrar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.imageButton} onPress={abrirCamera}>
-                    <Text style={styles.imageButtonText}>Tirar Foto</Text>
+                <TouchableOpacity>
+                    <Text style={styles.forgotPassword}>Cadastre-se!</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.imageButton} onPress={CadastrarCliente}>
-                    <Text style={styles.imageButtonText}>Cadastrar Cliente</Text>
-                </TouchableOpacity>
-                
-               
-                
-            </View>
+                </View>
             
-            </ImageBackground>
             </ScrollView>
+            <Footer />
         </View>
+        
     );
 }
 
-const styles = StyleSheet.create({
+const styles =StyleSheet.create({
     container: {
         flex: 1,
-        
-    },
-    header: {
-        
-        paddingVertical: 10,
-        alignItems: 'center',
-    },
-    form: {
-        
-        padding: 10,
-        backgroundColor: '#f3f3f3',
-        marginBottom: 10,
-        borderRadius: 35,
-        
-    },
-    image: {
-        flex: 1,
         justifyContent: 'center',
-      },
-    input: {
-        color: 'black',
-        height: 40,
-        borderBottomWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-        borderRadius: 20,
-        
+        alignItems: 'center',
+        backgroundColor: '#e3d5ca'
     },
     logo: {
-        borderRadius:10,
-        marginTop: 50 ,
-        marginBottom: 50,
-        width: 129,
-        height: 90
+        width: 300,
+        height: 300,
+        marginBottom: -120,
+        marginTop: -69
+        
     },
-    imageButton: {
-        backgroundColor: '#CD5942',
-        padding: 10,
-        borderRadius: 50,
-        alignItems: 'center',
-        marginBottom: 10
-    },
-    imageButtonText: {
-        color: 'white',
+    title: {
+        fontSize: 25,
         fontWeight: 'bold',
+        color: '#151413',
+        marginBottom: 20,
+        textAlign: 'center',
+
     },
-    imagemSelecionada: {
-        width: 200,
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 1000,
-        marginBottom: 10,
-        borderColor: 'black',
-        borderWidth: 2,
-    },
-    alinhamentoImagemSelecionada: {
-        alignItems: 'center'
+    input: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
+        height: 40,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        
     },
     button: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center'
+        backgroundColor: '#d6ccc2',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#d6ccc2',
+        height: 40,
+
     },
     buttonText: {
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    textFormulario: {
-        color: 'black'
-    },textoLogin: {
-        textAlign: 'center'
-    },
-    textoBotaoLogin: {
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 16,
+        lineHeight: 40,
+       
 
-    }
+    },
+    forgotPassword: {
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 10,
+
+    },
+    footer: {
+        width: 100
+    },
 
 });
-export default CadastroImovel
+
+export default CadastroScreen;
