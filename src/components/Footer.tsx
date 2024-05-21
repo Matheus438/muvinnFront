@@ -17,7 +17,7 @@ function Footer(): React.JSX.Element {
                 style={styles.footerIcon} />
             </TouchableOpacity>
             <TouchableOpacity>
-                <Image source={require('../assets/images/profile.png')}
+                <Image source={require('../assets/images/plus.png')}
                 style={styles.footerIcon} />
             </TouchableOpacity>
         </View>
@@ -38,8 +38,8 @@ const styles = StyleSheet.create({
         width:390,
     },
     footerIcon: {
-        width: 30,
-        height: 30
+        width: 35,
+        height: 35
     }
 });
 

@@ -32,7 +32,7 @@ function CadastroScreen(): React.JSX.Element{
             
 
             console.log(formData)
-            const response = await axios.post('http://10.137.11.224:8000/api/clientes', formData, {
+            const response = await axios.post('http://10.137.11.211:8000/api/imovel/criar', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
@@ -62,59 +62,59 @@ function CadastroScreen(): React.JSX.Element{
                 
                 <TextInput
                 style={styles.input} 
-                placeholder="cidade" 
+                placeholder="Cidade" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteCidade) => setCidade(texteCidade)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Endereço" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteEndereco) => setEndereco(texteEndereco)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Tipo do Imóvel" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteTipos_imoveis) => setTipos_imoveis(texteTipos_imoveis)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Preço" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(textePreco) => setPreco(textePreco)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Banheiros" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteBanheiros) => setBanheiros(texteBanheiros)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Quartos" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteQuartos) => setQuartos(texteQuartos)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
                 placeholder="Vagas" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteVagas) => setVagas(texteVagas)}
-                secureTextEntry
+                
                 />
                 <TextInput
                 style={styles.input} 
-                placeholder="Area do Imóvel" 
+                placeholder="Área do Imóvel" 
                 placeholderTextColor={"#151413"} 
                 onChangeText={(texteArea_do_Imovel) => setArea_do_imovel(texteArea_do_Imovel)}
-                secureTextEntry
+                
                 />
                 </View>
                 <View>
@@ -123,9 +123,7 @@ function CadastroScreen(): React.JSX.Element{
                 onPress={()=>{CadastroScreen()}}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Text style={styles.forgotPassword}>Cadastre-se!</Text>
-                </TouchableOpacity>
+
                 </View>
             
             </ScrollView>
@@ -176,7 +174,7 @@ const styles =StyleSheet.create({
     buttonText: {
         color: '#FFFFFF',
         textAlign: 'center',
-        fontSize: 16,
+        fontSize: 17,
         lineHeight: 40,
        
 
@@ -185,10 +183,11 @@ const styles =StyleSheet.create({
         color: 'black',
         textAlign: 'center',
         marginTop: 10,
+        fontSize: 14
 
     },
     footer: {
-        width: 100
+        width: 100,
     },
 
 });
