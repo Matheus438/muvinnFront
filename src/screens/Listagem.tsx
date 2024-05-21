@@ -8,15 +8,15 @@ import { FlatList, Image, ScrollView, StatusBar, StyleSheet, Text, TouchableOpac
 const renderItem = ({ item }: { item: Anuncio }) => (
     
     <View style={styles.item}>
-        <Text style={styles.textTitle}>{item.estado}</Text>
-        <Text style={styles.textTitle}>{item.cidade}</Text>
-        <Text style={styles.textTitle}>{item.endereco}</Text>
-        <Text style={styles.textTitle}>{item.tipos_imoveis}</Text>
+        <Text style={styles.textTitle}>Estado: {item.estado}</Text>
+        <Text style={styles.textTitle}>Cidade: {item.cidade}</Text>
+        <Text style={styles.textTitle}>Endereço: {item.endereco}</Text>
+        <Text style={styles.textTitle}>Tipo de imovel: {item.tipos_imoveis}</Text>
         <Text style={styles.textItem}>R${item.preco}</Text>
-        <Text style={styles.textTitle}>{item.banheiros}</Text>
-        <Text style={styles.textTitle}>{item.quartos}</Text>
-        <Text style={styles.textTitle}>{item.vagas}</Text>
-        <Text style={styles.textTitle}>{item.area_do_imovel}</Text>
+        <Text style={styles.textTitle}>Qtd. Banheiros: {item.banheiros}</Text>
+        <Text style={styles.textTitle}>Quartos: {item.quartos}</Text>
+        <Text style={styles.textTitle}>Vagas: {item.vagas}</Text>
+        <Text style={styles.textTitle}>Área do imovel: {item.area_do_imovel}m²</Text>
         <Image source={item.image ? {uri:item.image}: require('../assets/images/house.png')}  style={styles.image} />
         <TouchableOpacity style={styles.bottom}>
             <Text style={styles.textoBotton}>Entrar em contato</Text>
@@ -51,7 +51,6 @@ function Listagem(): React.JSX.Element {
 
             <StatusBar backgroundColor={"black"} barStyle={"light-content"} />
             <View style={styles.header}>
-
                 <Image
                     source={require('../assets/images/logo.png')}
                     style={styles.logo} />
@@ -126,7 +125,7 @@ const styles = StyleSheet.create({
         height: 30
     },
     textItem: {
-        color: 'white',
+        color: 'balck',
         fontSize: 20,
         fontWeight: 'bold'
     },
@@ -138,7 +137,8 @@ const styles = StyleSheet.create({
     logo: {
         width: 300,
         height: 300,
-        marginTop: -100
+        marginBottom: -120,
+        marginTop: -69
     },
     image: {
         width: 250,
@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
-        marginTop: 19,
-        marginBottom: 19
+        marginBottom: 190,
+
     },
     image2: {
         width: 150,
@@ -172,8 +172,8 @@ const styles = StyleSheet.create({
         marginLeft: 'auto'
     },
     textTitle: {
-        color: 'white',
-        fontSize: 30,
+        color: 'black',
+        fontSize: 15,
         fontWeight: 'bold'
     },
     sacola: {
