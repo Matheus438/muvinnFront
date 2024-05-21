@@ -33,9 +33,9 @@ function Listagem(): React.JSX.Element {
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get('http://10.137.11.224:8000/api/imovel/retornarTodos');
-                setAnuncio(response.data);
-                console.log(response.data);
+                const response = await axios.get('http://10.137.11.211:8000/api/imovel/retornarTodos');
+                setAnuncio(response.data.data);
+                console.log(response.data.data);
                 
             } catch (error) {
                 setErro("Ocorreu um erro");
@@ -56,29 +56,27 @@ function Listagem(): React.JSX.Element {
                     source={require('../assets/images/logo.png')}
                     style={styles.logo} />
             </View>
-            <ScrollView>
 
                 <Text style={styles.textEspeciais}>Propriedade disponiveis</Text>
                 <FlatList
                     showsVerticalScrollIndicator={false}
                     data={anuncio}
                     renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
+                    keyExtractor={(item) => item.id.toString()}
 
                 />
-            </ScrollView>
             <View style={styles.footer}>
                 <TouchableOpacity>
                     <Image
                         source={require('../assets/images/homes.png')}
                         style={styles.footerIcon} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('FlatListCardapio')}>
+                <TouchableOpacity>
                     <Image
                         source={require('../assets/images/lupe.png')}
                         style={styles.footerIcon} />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => navigation.navigate('CadastroSteakhouse')}>
+                <TouchableOpacity>
                     <Image
                         source={require('../assets/images/orders.png')}
                         style={styles.footerIcon} />
