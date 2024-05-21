@@ -19,7 +19,7 @@ const renderItem = ({ item }: { item: Anuncio }) => (
         <Text style={styles.textTitle}>Área do imovel: {item.area_do_imovel}m²</Text>
         <Image source={item.image ? {uri:item.image}: require('../assets/images/house.png')}  style={styles.image} />
         <TouchableOpacity style={styles.bottom}>
-            <Text style={styles.textoBotton}>Entrar em contato</Text>
+            <Text style={styles.textoBotton}>Detalhes</Text>
         </TouchableOpacity>
     </View>
 )
