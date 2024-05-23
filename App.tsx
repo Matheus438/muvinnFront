@@ -4,6 +4,7 @@ import React from 'react';
 import CadastroImovel from './src/screens/CadastroImovel';
 import CadastroScreen from './src/screens/CadastroImovel';
 import Listagem from './src/screens/Listagem';
+import Home from './src/screens/Home';
 const Stack = createStackNavigator();
 
 function App(): React.ReactElement {

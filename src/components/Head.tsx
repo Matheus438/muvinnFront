@@ -1,28 +1,26 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 function Head(): React.JSX.Element {
-    return(
-        <View style={styles.header}>
-                <Text style={styles.headerText}>Muvinn</Text>
+    return (
+        <View >
+           <Image source={require('../assets/images/logo2.png')}
+                style={styles.logo} />
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1 
+
+    logo: {
+        height: 50,
+        width: 300,
+        marginTop: 30,
+        marginLeft: 'auto',
+        marginRight: 'auto'
+        
+        
     },
-    headerText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: 'white'
-    },
-    header: {
-        backgroundColor: '#D5BDAF',
-        paddingVertical: 10,
-        alignItems: 'center'
-    }
 });
 
-export default Head
+export default Head;
