@@ -6,8 +6,6 @@ import Footer from "../components/Footer";
 import axios from "axios";
 
 interface RouteParams {
-    key: string;
-    name: string;
     anuncio: {
       estado: string;
       cidade: string;
@@ -32,9 +30,11 @@ const EditarAnucio: React.FC = () => {
   const [area_do_imovel, setArea_do_imovel] = useState<string>('');
 
   const navigation = useNavigation();
-  const route = useRoute<RouteParams>();
+  const route = useRoute();
+    const anuncio = (route.params as RouteParams).anuncio;
 
   useEffect(() => {
+    const route = useRoute();
     const anuncio = route.params?.anuncio;
 
     if (anuncio) {
