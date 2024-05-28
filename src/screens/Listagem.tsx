@@ -3,6 +3,7 @@ import { Anuncio } from '../components/interface/AnuncioInterface';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import {
+  Alert,
   FlatList,
   Image,
   SafeAreaView,
@@ -17,32 +18,32 @@ import Footer from '../components/Footer';
 import Head from '../components/Head';
 
 const renderItem = ({ item }: { item: Anuncio }) => (
-    <View style={styles.item}>
-      <Card style={{ backgroundColor: '#9999a1'}}>
-        <Card.Title title="Casa rustica " subtitle="Mais informações abaixo" titleStyle={styles.titleColor} subtitleStyle={styles.subtitleColor} />
-        <Card.Content>
-          <Text style={styles.textTitle}>Estado: {item.estado}</Text>
-          <Text style={styles.textTitle}>Cidade: {item.cidade}</Text>
-          <Text style={styles.textTitle}>Endereço: {item.endereco}</Text>
-          <Text style={styles.textTitle}>Tipo de imovel: {item.tipos_imoveis}</Text>
-          <Text style={styles.textItem}>R${item.preco}</Text>
-          <Text style={styles.textTitle}>Qtd. Banheiros: {item.banheiros}</Text>
-          <Text style={styles.textTitle}>Quartos: {item.quartos}</Text>
-          <Text style={styles.textTitle}>Vagas: {item.vagas}</Text>
-          <Text style={styles.textTitle}>Área do imovel: {item.area_do_imovel}m²</Text>
-          <Image source={item.image ? {uri:item.image}: require('../assets/images/house.png')}  style={styles.image} />
-        </Card.Content>
-        <Card.Actions>
-            <Button buttonColor='darkblue'>
-            <Text style={styles.textButton}>Editar</Text>
-            </Button>
-            <Button buttonColor='darkred'>
-                <Text style={styles.textButton}>Deletar Anuncio</Text>
-            </Button>
-        </Card.Actions>
-      </Card>
-    </View>
-  );
+  <View style={styles.item}>
+    <Card style={{ backgroundColor: '#9999a1' }}>
+      <Card.Title title="Casa rustica " subtitle="Mais informações abaixo" titleStyle={styles.titleColor} subtitleStyle={styles.subtitleColor} />
+      <Card.Content>
+        <Text style={styles.textTitle}>Estado: {item.estado}</Text>
+        <Text style={styles.textTitle}>Cidade: {item.cidade}</Text>
+        <Text style={styles.textTitle}>Endereço: {item.endereco}</Text>
+        <Text style={styles.textTitle}>Tipo de imovel: {item.tipos_imoveis}</Text>
+        <Text style={styles.textItem}>R${item.preco}</Text>
+        <Text style={styles.textTitle}>Qtd. Banheiros: {item.banheiros}</Text>
+        <Text style={styles.textTitle}>Quartos: {item.quartos}</Text>
+        <Text style={styles.textTitle}>Vagas: {item.vagas}</Text>
+        <Text style={styles.textTitle}>Área do imovel: {item.area_do_imovel}m²</Text>
+        <Image source={item.image? { uri: item.image } : require('../assets/images/house.png')} style={styles.image} />
+      </Card.Content>
+      <Card.Actions>
+        <Button buttonColor='darkblue'>
+          <Text style={styles.textButton}>Editar</Text>
+        </Button>
+        <Button buttonColor='darkred' onPress={() => handleDelete(item.id)}>
+          <Text style={styles.textButton}>Deletar Anuncio</Text>
+        </Button>
+      </Card.Actions>
+    </Card>
+  </View>
+);
 
 function Listagem(): React.JSX.Element {
   const [anuncio, setAnuncio] = useState<Anuncio[]>([]);
@@ -64,6 +65,32 @@ function Listagem(): React.JSX.Element {
 
   const navigation = useNavigation();
 
+  const handleDelete = async (id: string) => {
+    Alert.alert(
+      "Deletar Anúncio",
+      "Você tem certeza que deseja deletar este anúncio?",
+      [
+        {
+          text: "Cancelar",
+          style: "cancel"
+        },
+        {
+          text: "Deletar",
+          onPress: async () => {
+            try {
+              await axios.delete(`http://10.137.11.211:8000/api/imovel/delete/${id}`);
+              const newAnuncio = anuncio.filter((item) => item.id!== id);
+              setAnuncio(newAnuncio);
+              Alert.alert("Anúncio deletado com sucesso.");
+            } catch (error) {
+              console.error(error);
+              Alert.alert("Ocorreu um erro ao deletar o anúncio.");
+            }
+          }
+        }
+      ]
+    );
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="black" barStyle="light-content" />
@@ -79,7 +106,7 @@ function Listagem(): React.JSX.Element {
         renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
       />
-      <Footer/>
+      <Footer />
     </SafeAreaView>
   );
 }
@@ -154,44 +181,44 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     marginLeft: 'auto',
   },
-    textTitle: {
-        color: '#f4f4f6',
-        fontSize: 15,
-        fontWeight: 'bold'
-    },
-    sacola: {
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        borderWidth: 1.5,
-        borderColor: 'white',
-        marginLeft: 'auto'
-    },
-    button: {
-        borderRadius: 5,
-        width: 160,
-        height: 40,
-        backgroundColor: '#9999a1'
-    },
-    textButton: {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: 6,
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#f4f4f6'
-    },
-    textButtonDelete: {
-      color: 'red'
-    },
-    buttonColor: {
-        color: '#5c6b73'
-    },
-    titleColor: {
-      color: '#f4f4f6'
-    },
-    subtitleColor: {
-      color: '#f4f4f6'
-    }
+  textTitle: {
+    color: '#f4f4f6',
+    fontSize: 15,
+    fontWeight: 'bold'
+  },
+  sacola: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: 'white',
+    marginLeft: 'auto'
+  },
+  button: {
+    borderRadius: 5,
+    width: 160,
+    height: 40,
+    backgroundColor: '#9999a1'
+  },
+  textButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 6,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f4f4f6'
+  },
+  textButtonDelete: {
+    color: 'red'
+  },
+  buttonColor: {
+    color: '#5c6b73'
+  },
+  titleColor: {
+    color: '#f4f4f6'
+  },
+  subtitleColor: {
+    color: '#f4f4f6'
+  }
 })
 export default Listagem;
