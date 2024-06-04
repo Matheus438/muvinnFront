@@ -1,213 +1,205 @@
-import React, { useEffect, useState } from "react";
-import Head from "../components/Head";
-import { StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import Footer from "../components/Footer";
 import axios from "axios";
+import React, { useState } from "react";
+import { Image, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import Footer from "../components/Footer";
 
-interface RouteParams {
-    anuncio: {
-      estado: string;
-      cidade: string;
-      endereco: string;
-      tipos_imoveis: string;
-      preco: string;
-      banheiros: string;
-      quartos: string;
-      vagas: string;
-      area_do_imovel: string;
-    };
-  }
-const EditarAnucio: React.FC = () => {
-  const [estado, setEstado] = useState<string>('');
-  const [cidade, setCidade] = useState<string>('');
-  const [endereco, setEndereco] = useState<string>('');
-  const [tipos_imoveis, setTipos_imoveis] = useState<string>('');
-  const [preco, setPreco] = useState<string>('');
-  const [banheiros, setBanheiros] = useState<string>('');
-  const [quartos, setQuartos] = useState<string>('');
-  const [vagas, setVagas] = useState<string>('');
-  const [area_do_imovel, setArea_do_imovel] = useState<string>('');
+interface Item {
+  id: string;
+  estado: string;
+  cidade: string;
+  endereco: string;
+  tipos_imoveis: string;
+  preco: string;
+  banheiros: string;
+  quartos: string;
+  vagas: string;
+  area_do_imovel: string;
+}
 
-  const navigation = useNavigation();
-  const route = useRoute();
-    const anuncio = (route.params as RouteParams).anuncio;
+function EditarAnuncio({ item }: { item: Item }): React.JSX.Element {
+  const [estado, setEstado] = useState(item.estado);
+  const [cidade, setCidade] = useState(item.cidade);
+  const [endereco, setEndereco] = useState(item.endereco);
+  const [tipos_imoveis, setTipos_imoveis] = useState(item.tipos_imoveis);
+  const [preco, setPreco] = useState(item.preco);
+  const [banheiros, setBanheiros] = useState(item.banheiros);
+  const [quartos, setQuartos] = useState(item.quartos);
+  const [vagas, setVagas] = useState(item.vagas);
+  const [area_do_imovel, setArea_do_imovel] = useState(item.area_do_imovel);
 
-  useEffect(() => {
-    const route = useRoute();
-    const anuncio = route.params?.anuncio;
-
-    if (anuncio) {
-      setEstado(anuncio.estado);
-      setCidade(anuncio.cidade);
-      setEndereco(anuncio.endereco);
-      setTipos_imoveis(anuncio.tipos_imoveis);
-      setPreco(anuncio.preco);
-      setBanheiros(anuncio.banheiros);
-      setQuartos(anuncio.quartos);
-      setVagas(anuncio.vagas);
-      setArea_do_imovel(anuncio.area_do_imovel);
-    }
-  }, [route.params]);
-
-  const handleEdit = async () => {
+  const editarScreen = async () => {
     try {
-      const data = {
-        estado,
-        cidade,
-        endereco,
-        tipos_imoveis,
-        preco,
-        banheiros,
-        quartos,
-        vagas,
-        area_do_imovel,
-      };
+      const formData = new FormData();
+      formData.append('estado', estado);
+      formData.append('cidade', cidade);
+      formData.append('endereco', endereco);
+      formData.append('tipos_imoveis', tipos_imoveis);
+      formData.append('preco', preco);
+      formData.append('banheiros', banheiros);
+      formData.append('quartos', quartos);
+      formData.append('vagas', vagas);
+      formData.append('area_do_imovel', area_do_imovel);
 
-      const response = await axios.put(`http://10.137.11.211:8000/api/imovel/`, data, {
+      console.log(formData);
+      const response = await axios.put(`http://10.137.11.211:8000/api/imovel/update/{id}`, formData, {
         headers: {
-          'Content-Type': 'application/json',
-        },
+          'Content-Type': 'multipart/form-data'
+        }
       });
       console.log(response.data);
-      navigation.goBack();
     } catch (error) {
       console.log(error);
     }
-  };
+  }
 
-  return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="red" barStyle="light-content" />
-      <Head />
-      <View style={styles.form}>
-        <TextInput 
-          style={styles.input}
-          value={estado}
-          onChangeText={setEstado}
-        />
-        <TextInput 
-          style={styles.input}
-          value={cidade}
-          onChangeText={setCidade}
-        />
-        <TextInput 
-          style={styles.input}
-          value={endereco}
-          onChangeText={setEndereco}
-        />
-        <TextInput 
-          style={styles.input}
-          value={tipos_imoveis}
-          onChangeText={setTipos_imoveis}
-        />
-        <TextInput 
-          style={styles.input}
-          value={preco}
-          onChangeText={setPreco}
-        />
-        <TextInput 
-          style={styles.input}
-          value={banheiros}
-          onChangeText={setBanheiros}
-        />
-        <TextInput 
-          style={styles.input}
-          value={quartos}
-          onChangeText={setQuartos}
-        />
-        <TextInput 
-          style={styles.input}
-          value={vagas}
-          onChangeText={setVagas}
-        />
-        <TextInput 
-          style={styles.input}
-          value={area_do_imovel}
-          onChangeText={setArea_do_imovel}
-        />
+    return(
+        <View style={styles.container}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+            <StatusBar hidden barStyle={"light-content"} backgroundColor={"black"} />
+            <Image
+                    source={require('../assets/images/logo.png')}
+                    style={styles.logo} />
 
-        <TouchableOpacity style={styles.button}
-          onPress={handleEdit}>
-          <Text style={styles.buttonText}>Editar</Text>
-        </TouchableOpacity>
+            <View>
+                
+                <TextInput
+                style={styles.input} 
+                placeholder="Estado" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteEstado) => setEstado(texteEstado)}
+                />
+                
+                <TextInput
+                style={styles.input} 
+                placeholder="Cidade" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteCidade) => setCidade(texteCidade)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Endereço" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteEndereco) => setEndereco(texteEndereco)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Tipo do Imóvel" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteTipos_imoveis) => setTipos_imoveis(texteTipos_imoveis)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Preço" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(textePreco) => setPreco(textePreco)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Banheiros" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteBanheiros) => setBanheiros(texteBanheiros)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Quartos" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteQuartos) => setQuartos(texteQuartos)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Vagas" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteVagas) => setVagas(texteVagas)}
+                
+                />
+                <TextInput
+                style={styles.input} 
+                placeholder="Área do Imóvel" 
+                placeholderTextColor={"#151413"} 
+                onChangeText={(texteArea_do_Imovel) => setArea_do_imovel(texteArea_do_Imovel)}
+                
+                />
+                </View>
+                <View>
+                    
+                <TouchableOpacity style={styles.button} 
+                onPress={()=>{editarScreen()}}>
+                    <Text style={styles.buttonText}>Editar</Text>
+                </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button}
-          onPress={() => navigation.goBack()}>
-          <Text style={styles.buttonText}>Voltar</Text>
-        </TouchableOpacity>
-
-        <View style={styles.menuList}></View>
-        <Footer />
-      </View>
-    </View>
-  );
+                </View>
+            
+            </ScrollView>
+            <Footer />
+        </View>
+        
+    );
 }
 
-const styles = StyleSheet.create({
+const styles =StyleSheet.create({
     container: {
         flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#edf2fa'
     },
-    header: {
-        backgroundColor: "red",
-        paddingVertical: 10,
-        alignItems: 'center'
+    logo: {
+        width: 300,
+        height: 300,
+        marginBottom: -120,
+        marginTop: -69
+        
     },
-    headerText: {
-        fontSize: 20,
+    title: {
+        fontSize: 25,
         fontWeight: 'bold',
-        color: 'white'
-    },
+        color: '#151413',
+        marginBottom: 20,
+        textAlign: 'center',
 
-    form: {
-        padding: 10,
-        backgroundColor: '#f0f0f0',
-        marginBottom: 10
     },
     input: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'black',
         height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
+        marginBottom: 20,
         paddingHorizontal: 10,
-        borderRadius: 10
-    },
-    imageButton: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center',
-        marginBottom: 10
-    },
-    imageButtonText: {
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    imagemSelecionada: {
-        width: 200,
-        height: 200,
-        resizeMode: 'cover',
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    alinhamentoImagemSelecionada: {
-        alignItems: 'center'
+        
     },
     button: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-        alignItems: 'center'
+        backgroundColor: '#7b5bf2',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#d6ccc2',
+        height: 40,
+
     },
     buttonText: {
-        color: 'white',
-        fontWeight: 'bold'
-    },
-    menuList: {
-        flexGrow: 1
-    },
+        color: '#FFFFFF',
+        textAlign: 'center',
+        fontSize: 17,
+        lineHeight: 40,
+       
 
+    },
+    forgotPassword: {
+        color: 'black',
+        textAlign: 'center',
+        marginTop: 10,
+        fontSize: 14
+
+    },
+    footer: {
+        width: 100,
+    },
 
 });
 
-export default EditarAnucio;
+export default EditarAnuncio;

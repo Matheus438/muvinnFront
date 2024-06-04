@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import Footer from '../components/Footer';
+import EditarAnuncio from './EditarAnuncio';
 
 const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: string) => void }) => (
   <View style={styles.item}>
@@ -32,7 +33,7 @@ const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: 
         <Image source={item.image? {uri:item.image}: require('../assets/images/house.png')}  style={styles.image} />
       </Card.Content>
       <Card.Actions>
-        <Button buttonColor='darkblue'>
+        <Button buttonColor='darkblue' onPress={() => navigation.navigate ('EditarAnuncio', {item})}>
           <Text style={styles.textButton}>Editar</Text>
         </Button>
         <Button buttonColor='darkred' onPress={() => handleDelete(item.id)}>
@@ -42,6 +43,8 @@ const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: 
     </Card>
   </View>
 );
+
+const navigation = useNavigation();
 
 function Listagem(): React.JSX.Element {
   const [anuncio, setAnuncio] = useState<Anuncio[]>([]);
@@ -76,7 +79,7 @@ function Listagem(): React.JSX.Element {
           text: "Deletar",
           onPress: async () => {
             try {
-              await axios.delete(`http://10.137.11.211:8000/api/imovel/delete/${id}`);
+              await axios.delete(`http://10.137.11.211:8000/api/imovel/delete/{id}`);
               const newAnuncio = anuncio.filter((item) => item.id!== id);
               setAnuncio(newAnuncio);
               Alert.alert("Anúncio deletado com sucesso.");
