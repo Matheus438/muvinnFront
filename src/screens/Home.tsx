@@ -20,7 +20,7 @@ function Home() {
             </View>
             <Card style={{ backgroundColor: '#66666e', width: 360, justifyContent: 'center'}} >
               <Card.Title title="Card Title" titleStyle={styles.titleColor}/>
-              <Card.Cover source={ require("../assets/images/cardImage.png")}/>
+              <Card.Cover source={ require("../assets/images/imageCard.png")}/>
               <Card.Actions>
                 <Button style={styles.buttonColor} onPress={() => navigation.navigate('Listagem')}>
                   <Text style={styles.buttonText}>Ver mais</Text>

@@ -17,7 +17,7 @@ function CadastroScreen(): React.JSX.Element{
     const [area_do_imovel, setArea_do_imovel] = useState("");
 
 
-    const CadastroScreen = async () => {
+    const cadastrar = async () => {
         try {
             const formData = new FormData();
             formData.append('estado', estado);
@@ -120,7 +120,7 @@ function CadastroScreen(): React.JSX.Element{
                 <View>
                     
                 <TouchableOpacity style={styles.button} 
-                onPress={()=>{CadastroScreen()}}>
+                onPress={()=>{cadastrar()}}>
                     <Text style={styles.buttonText}>Cadastrar</Text>
                 </TouchableOpacity>
 

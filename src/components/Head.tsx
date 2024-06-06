@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, View } from "react-native";
 function Head(): React.JSX.Element {
     return (
         <View >
-           <Image source={require('../assets/images/logo2.png')}
+           <Image source={require('../assets/images/logo.png')}
                 style={styles.logo} />
         </View>
     );

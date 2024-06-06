@@ -10,15 +10,17 @@ import {
   StatusBar,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import { Button, Card } from 'react-native-paper';
 import Footer from '../components/Footer';
-import EditarAnuncio from './EditarAnuncio';
-
-const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: string) => void }) => (
+const navigation = useNavigation();
+const renderItem = ({ item, handleDelete }: { item: Anuncio, handleEdit: (item: Anuncio) => void, handleDelete: (id: string)
+   => void }) => (
   <View style={styles.item}>
-    <Card style={{ backgroundColor: '#9999a1'}}>
+    <Card style={{ backgroundColor: '#9999a1' }}>
       <Card.Title title="Casa rustica " subtitle="Mais informações abaixo" titleStyle={styles.titleColor} subtitleStyle={styles.subtitleColor} />
       <Card.Content>
         <Text style={styles.textTitle}>Estado: {item.estado}</Text>
@@ -30,7 +32,7 @@ const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: 
         <Text style={styles.textTitle}>Quartos: {item.quartos}</Text>
         <Text style={styles.textTitle}>Vagas: {item.vagas}</Text>
         <Text style={styles.textTitle}>Área do imovel: {item.area_do_imovel}m²</Text>
-        <Image source={item.image? {uri:item.image}: require('../assets/images/house.png')}  style={styles.image} />
+        <Image source={item.image ? { uri: item.image } : require('../assets/images/house.png')} style={styles.image} />
       </Card.Content>
       <Card.Actions>
         <Button buttonColor='darkblue' onPress={() => navigation.navigate ('EditarAnuncio', {item})}>
@@ -44,11 +46,10 @@ const renderItem = ({ item, handleDelete }: { item: Anuncio, handleDelete: (id: 
   </View>
 );
 
-const navigation = useNavigation();
-
 function Listagem(): React.JSX.Element {
   const [anuncio, setAnuncio] = useState<Anuncio[]>([]);
   const [erro, setErro] = useState<string>('');
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     async function fetchData() {
@@ -80,7 +81,7 @@ function Listagem(): React.JSX.Element {
           onPress: async () => {
             try {
               await axios.delete(`http://10.137.11.211:8000/api/imovel/delete/{id}`);
-              const newAnuncio = anuncio.filter((item) => item.id!== id);
+              const newAnuncio = anuncio.filter((item) => item.id !== id);
               setAnuncio(newAnuncio);
               Alert.alert("Anúncio deletado com sucesso.");
             } catch (error) {
@@ -93,27 +94,42 @@ function Listagem(): React.JSX.Element {
     );
   };
 
+  const handleEdit = (item: Anuncio) => {
+    navigation.navigate('EditarAnuncio', { item });
+  };
+
+  const filteredAnuncios = anuncio.filter((item) => {
+    const itemName = item.estado + ' + item.cidade + ' + item.endereco;
+    return itemName.toLowerCase().includes(searchText.toLowerCase());
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar backgroundColor="black" barStyle="light-content" />
       <View style={styles.header}>
         <Image source={require('../assets/images/logo.png')} style={styles.logo} />
       </View>
+      <View style={styles.searchBar}>
+        <TextInput
+          placeholder="Pesquisar"
+          value={searchText}
+          onChangeText={(text) => setSearchText(text)}
+          style={styles.searchInput}
+        />
+      </View>
       <FlatList
         ListHeaderComponent={() => (
           <Text style={styles.textEspeciais}>Propriedade disponiveis</Text>
         )}
         showsVerticalScrollIndicator={false}
-        data={anuncio}
-        renderItem={({ item }) => renderItem({ item, handleDelete })}
+        data={filteredAnuncios}
+        renderItem={({ item }) => renderItem({ item, handleEdit, handleDelete })}
         keyExtractor={(item) => item.id.toString()}
       />
-      <Footer/>
+      <Footer />
     </SafeAreaView>
   );
 }
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -133,7 +149,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 10,
   },
-
   footerIcon: {
     width: 30,
     height: 30,
@@ -153,7 +168,6 @@ const styles = StyleSheet.create({
     height: 300,
     marginBottom: -120,
     marginTop: -69,
-
   },
   image: {
     width: 250,
@@ -168,7 +182,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-
   },
   image2: {
     width: 150,
@@ -185,41 +198,63 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     marginLeft: 'auto',
   },
-    textTitle: {
-        color: '#f4f4f6',
-        fontSize: 15,
-        fontWeight: 'bold'
-    },
-    sacola: {
-        width: 60,
-        height: 60,
-        borderRadius: 50,
-        borderWidth: 1.5,
-        borderColor: 'white',
-        marginLeft: 'auto'
-    },
-    button: {
-        borderRadius: 5,
-        width: 160,
-        height: 40,
-        backgroundColor: '#9999a1'
-    },
-    textButton: {
-        marginLeft: 'auto',
-        marginRight: 'auto',
-        marginTop: 6,
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#f4f4f6'
-    },
-    buttonColor: {
-        color: '#5c6b73'
-    },
-    titleColor: {
-      color: '#f4f4f6'
-    },
-    subtitleColor: {
-      color: '#f4f4f6'
-    }
-})
+  textTitle: {
+    color: '#f4f4f6',
+    fontSize: 15,
+    fontWeight: 'bold',
+  },
+  sacola: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    borderWidth: 1.5,
+    borderColor: 'white',
+    marginLeft: 'auto',
+  },
+  button: {
+    borderRadius: 5,
+    width: 160,
+    height: 40,
+    backgroundColor: '#9999a1',
+  },
+  textButton: {
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 6,
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#f4f4f6',
+  },
+  buttonColor: {
+    color: '#5c6b73',
+  },
+  titleColor: {
+    color: '#f4f4f6',
+  },
+  subtitleColor: {
+    color: '#f4f4f6',
+  },
+  searchBar: {
+    padding: 10,
+    backgroundColor: '#f0f0f0',
+    borderRadius: 10,
+    marginBottom: 10,
+  },
+  searchInput: {
+    height: 40,
+    padding: 10,
+    fontSize: 16,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#ddd',
+  },
+  buttonEdit: {
+    backgroundColor: 'darkblue'
+  },
+  buttonDelete: {
+    backgroundColor: 'darkred'
+  }
+});
+
 export default Listagem;
