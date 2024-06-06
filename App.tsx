@@ -13,14 +13,9 @@ function App(): React.ReactElement {
   return (
     <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name='Home' component={Home} 
-          options={{headerShown: false}}/>
-          <Stack.Screen name='Listagem' component={Listagem} 
-          options={{headerShown: false}}/>
-          <Stack.Screen name='CadastroImovel' component={CadastroImovel} 
-          options={{headerShown: false}}/>
           <Stack.Screen name='EditarAnuncio' component={EditarAnuncio} 
           options={{headerShown: false}}/>
+          
         </Stack.Navigator>
     </NavigationContainer>
   );

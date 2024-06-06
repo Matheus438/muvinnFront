@@ -1,12 +1,10 @@
 import React from "react";
 import { ImageBackground, ScrollView, StatusBar, StyleSheet, Text, View, } from "react-native";
 import Footer from "../components/Footer";
-import { useNavigation } from "@react-navigation/native";
 import { Button, Card } from "react-native-paper";
 import Head from "../components/Head";
 
 function Home() {
-  const navigation = useNavigation();
 
   return (
     <ImageBackground source={require("../assets/images/background1.png")} style={styles.image}>
@@ -22,7 +20,7 @@ function Home() {
               <Card.Title title="Card Title" titleStyle={styles.titleColor}/>
               <Card.Cover source={ require("../assets/images/imageCard.png")}/>
               <Card.Actions>
-                <Button style={styles.buttonColor} onPress={() => navigation.navigate('Listagem')}>
+                <Button style={styles.buttonColor}>
                   <Text style={styles.buttonText}>Ver mais</Text>
                 </Button>
               </Card.Actions>

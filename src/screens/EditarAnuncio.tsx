@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Image, StatusBar, StyleSheet, Text, TextInput, Touchable, TouchableOpacity, View } from "react-native";
 import { ScrollView } from "react-native-gesture-handler";
 import Footer from "../components/Footer";
-import { useNavigation } from "@react-navigation/native";
 
 
 
@@ -11,9 +10,9 @@ interface Props {
   route: any;
 }
 
-const navigation = useNavigation();
 
-function EditarAnuncio({ route }: Props) {
+
+function EditarScreen({ route }: Props) {
   const { item } = route.params;
   const [estado, setEstado] = useState(item.estado);
   const [cidade, setCidade] = useState(item.cidade);
@@ -41,11 +40,10 @@ function EditarAnuncio({ route }: Props) {
       console.log(formData)
       const response = await axios.put(`http://10.137.11.211:8000/api/imovel/update{id}`, formData, {
         headers: {
-          'Content-Type': 'ultipart/form-data'
+          'Content-Type': 'multipart/form-data'
         }
       });
       console.log(response.data)
-      navigation.goBack();
     } catch (error) {
       console.log(error);
     }
@@ -197,4 +195,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditarAnuncio;
+export default EditarScreen;
